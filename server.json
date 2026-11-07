@@ -1,0 +1,41 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.onlinecompiler/compiler",
+  "title": "OnlineCompiler.io",
+  "description": "Run Python, Java, C, C++, C#, Go, Rust and 39 more languages, each run in a fresh, offline sandbox.",
+  "version": "1.2.1",
+  "websiteUrl": "https://onlinecompiler.io/mcp-code-execution",
+  "repository": {
+    "url": "https://github.com/onlinecompiler-io/onlinecompiler-mcp",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://onlinecompiler.io/logo.png",
+      "mimeType": "image/png",
+      "sizes": ["128x128"]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.onlinecompiler.io/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Optional: your OnlineCompiler.io API key as a Bearer token. Leave it out to sign in with OAuth instead. Get a free key at https://api.onlinecompiler.io/compilers/api-keys/",
+          "isRequired": false,
+          "isSecret": true,
+          "value": "Bearer {api_key}",
+          "variables": {
+            "api_key": {
+              "description": "Your OnlineCompiler.io API key (free, 100,000 runs a month)",
+              "isRequired": false,
+              "isSecret": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

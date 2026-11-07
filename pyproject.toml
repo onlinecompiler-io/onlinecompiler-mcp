@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "onlinecompiler-mcp"
+version = "0.4.1"
+description = "MCP server for OnlineCompiler.io: execute code in 46 languages in sandboxed containers"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+    { name = "OnlineCompiler.io" }
+]
+keywords = ["mcp", "compiler", "code-execution", "onlinecompiler", "sandbox"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+    "fastmcp>=4.1.0",
+    "httpx>=0.28.1",
+]
+
+[project.urls]
+Homepage = "https://onlinecompiler.io"
+Documentation = "https://onlinecompiler.io/docs"
+Source = "https://github.com/onlinecompiler-io/onlinecompiler-mcp"
+Issues = "https://github.com/onlinecompiler-io/onlinecompiler-mcp/issues"
+
+[project.scripts]
+onlinecompiler-mcp = "onlinecompiler_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/onlinecompiler_mcp"]
+
+# The repo also holds the Gemini CLI extension, the Claude Code plugin and the logos; the source
+# distribution needs only the package.
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "LICENSE"]

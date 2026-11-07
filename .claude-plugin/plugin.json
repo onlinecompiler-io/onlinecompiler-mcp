@@ -1,0 +1,23 @@
+{
+  "name": "onlinecompiler",
+  "displayName": "OnlineCompiler",
+  "version": "0.4.1",
+  "description": "Run code in 46 languages in a fresh sandbox, and judge it against test cases, from Claude Code.",
+  "author": {
+    "name": "RunCode Inc.",
+    "url": "https://onlinecompiler.io/?utm_source=github&utm_medium=repo&utm_campaign=onlinecompiler-mcp"
+  },
+  "homepage": "https://onlinecompiler.io/mcp-code-execution?utm_source=github&utm_medium=repo&utm_campaign=onlinecompiler-mcp",
+  "repository": "https://github.com/onlinecompiler-io/onlinecompiler-mcp",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "code-execution",
+    "sandbox",
+    "compiler",
+    "online-judge"
+  ],
+  "icon": "./.claude-plugin/icon.png",
+  "privacyPolicyUrl": "https://onlinecompiler.io/privacy",
+  "termsOfServiceUrl": "https://onlinecompiler.io/terms"
+}

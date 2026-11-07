@@ -1,0 +1,11 @@
+{
+  "name": "onlinecompiler",
+  "version": "0.4.1",
+  "description": "Run code in 46 languages, each run in a fresh sandbox, and judge it against test cases. Hosted by OnlineCompiler.io.",
+  "mcpServers": {
+    "onlinecompiler": {
+      "httpUrl": "https://api.onlinecompiler.io/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

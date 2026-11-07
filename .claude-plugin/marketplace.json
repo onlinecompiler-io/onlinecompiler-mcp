@@ -1,0 +1,15 @@
+{
+  "name": "onlinecompiler",
+  "description": "OnlineCompiler.io plugins for Claude Code",
+  "owner": {
+    "name": "RunCode Inc.",
+    "url": "https://onlinecompiler.io/?utm_source=github&utm_medium=repo&utm_campaign=onlinecompiler-mcp"
+  },
+  "plugins": [
+    {
+      "name": "onlinecompiler",
+      "source": "./",
+      "description": "Run code in 46 languages in a fresh sandbox, and judge it against test cases."
+    }
+  ]
+}

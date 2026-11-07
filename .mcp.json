@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "onlinecompiler": {
+      "type": "http",
+      "url": "https://api.onlinecompiler.io/mcp"
+    }
+  }
+}
