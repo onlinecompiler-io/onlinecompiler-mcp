@@ -38,7 +38,7 @@ Execute code with a specified compiler.
 - `time_limit` (optional): Seconds the run may take, above 0 and at most 30 (default 30)
 - `files` (optional): Files the program can use, up to 20 and 1,000,000 decoded bytes in total: helper source files (compiled with the program) and input data. Each `{"name": "util.py" or "pkg/util.py", "content": "...", "encoding": "utf8" or "base64"}`; the program finds them in its working directory
 
-`python-3.14` includes numpy, pandas, scipy, scikit-learn, matplotlib, seaborn, statsmodels, sympy, openpyxl, pillow and duckdb. Files a program writes to `$OUTPUT_DIR` come back (png, svg, csv, json, txt; up to 8 files and 2 MB), and `plt.show()` saves each open figure as a PNG.
+`python-3.14` includes numpy, pandas, scipy, scikit-learn, matplotlib, seaborn, statsmodels, sympy, openpyxl, pillow, duckdb, polars, wordcloud, pgmpy and nltk. Files a program writes to `$OUTPUT_DIR` come back (png, svg, csv, json, txt; up to 8 files and 2 MB), and `plt.show()` saves each open figure as a PNG.
 
 **Returns:** `output`, `error`, `status`, `exit_code`, `time`, `memory`, `truncated`, `files`, `files_truncated`. PNG files arrive as MCP image content; SVG, CSV, JSON and text files are listed with their `text` (cut at 64 KB).
 
@@ -50,7 +50,7 @@ Check a program against test cases and judge it like an online judge. At most 10
 - `compiler` (required): Compiler identifier from `list_compilers`
 - `tests` (required): Up to 10 objects, each `{"input": "...", "expected_output": "..."}`
 - `time_limit` (optional): Seconds per test, above 0 and at most 30 (default 2); compiling does not count, and Java, Groovy and F# get a start-up allowance on top
-- `checker` (optional): `trim` (default), `exact`, `tokens`, `float` or `rows` (unordered lines, numbers within tolerance)
+- `checker` (optional): `trim` (default), `exact`, `tokens`, `float`, `rows` (unordered lines, numbers within tolerance), `table` (CSV tables with a header row compared by column name, rows in any order; print `df.to_csv(index=False)`) or `table_ordered` (the same, rows in order)
 - `files` (optional): Files shared by every test (input data or helper source files), same shape as in `run_code`
 
 **Returns:** an overall `verdict`, a `score` from 0 to 100 and a verdict per test.

@@ -137,7 +137,8 @@ async def run_code(
     expected outputs, use run_tests instead.
 
     python-3.14 includes numpy, pandas, scipy, scikit-learn, matplotlib, seaborn, statsmodels,
-    sympy, openpyxl, pillow and duckdb (no network, so nothing else can be installed).
+    sympy, openpyxl, pillow, duckdb, polars, wordcloud, pgmpy and nltk (with WordNet, VADER and the
+    English POS tagger data) (no network, so nothing else can be installed).
     Files a program writes to the directory in $OUTPUT_DIR come back in `files` (png, svg, csv,
     json and txt; up to 8 files and 2 MB): PNG charts are returned as images, and SVG, CSV, JSON
     and text files with their `text`. plt.show() saves each open figure as figure-N.png, so
@@ -192,10 +193,12 @@ async def run_tests(
         "Seconds each test may take, above 0 and at most 30. Defaults to 2.",
     ] = None,
     checker: Annotated[
-        Literal["trim", "exact", "tokens", "float", "rows"],
+        Literal["trim", "exact", "tokens", "float", "rows", "table", "table_ordered"],
         "How output is compared: trim ignores trailing whitespace (default), exact is byte for byte, "
         "tokens ignores all whitespace differences, float compares numbers within a small tolerance, "
-        "rows compares lines as an unordered set (for SQL and pandas output), numbers within tolerance.",
+        "rows compares lines as an unordered set (for SQL and pandas output), numbers within tolerance, "
+        "table compares CSV tables with a header row by column name, rows in any order (print "
+        "df.to_csv()), and table_ordered does the same with rows in order.",
     ] = "trim",
     files: Annotated[list[dict] | None, FILES_PARAM + " Shared by every test."] = None,
 ) -> dict:
@@ -206,7 +209,8 @@ async def run_tests(
     to 100 and a verdict per test. time_limit is seconds per test; compiling before the run
     does not count against it, and Java, Groovy and F#, which compile as they start, get a
     start-up allowance on top of it. python-3.14 includes numpy, pandas, scipy, scikit-learn,
-    matplotlib, seaborn, statsmodels, sympy, openpyxl, pillow and duckdb, and duckdb-1.5 works
+    matplotlib, seaborn, statsmodels, sympy, openpyxl, pillow, duckdb, polars, wordcloud, pgmpy
+    and nltk, and duckdb-1.5 works
     like sqlite-3, so data questions can be judged with checker "rows" and shared `files`.
     Files a program writes to $OUTPUT_DIR come back on visible tests only, as metadata.
     """
