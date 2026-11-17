@@ -23,6 +23,8 @@ There are two ways in:
 
 Runs count against your plan either way. A wrong or disabled key gets `401`.
 
+To run the server yourself instead (version 0.6.0 and later): `onlinecompiler-mcp` serves Streamable HTTP on port 8080 (`MCP_HOST`, `MCP_PORT`) and takes each caller's key as a Bearer token, while `onlinecompiler-mcp --transport stdio` speaks stdio for local clients and reads your key from `ONLINECOMPILER_API_KEY`.
+
 ## Tools
 
 ### `list_compilers`

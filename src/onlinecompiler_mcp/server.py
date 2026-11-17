@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import base64
 import json
 import os
@@ -43,13 +44,22 @@ mcp = FastMCP(
 )
 
 
+# Set by main() for `--transport stdio`, where there is no HTTP request to carry a Bearer token.
+_STDIO = False
+
+
 def _get_api_key() -> str:
-    """Get the API key from the Bearer token."""
+    """Get the API key: the Bearer token over HTTP, or ONLINECOMPILER_API_KEY over stdio."""
     token = get_access_token()
     if token and token.token:
         return token.token
+    # Only over stdio: an HTTP caller must never run on the operator's own key.
+    key = os.environ.get("ONLINECOMPILER_API_KEY", "").strip() if _STDIO else ""
+    if key:
+        return key
     raise ToolError(
-        "Authentication required. Pass your API key as a Bearer token."
+        "Authentication required. Pass your API key as a Bearer token "
+        "(or set ONLINECOMPILER_API_KEY when running with --transport stdio)."
     )
 
 
@@ -296,8 +306,22 @@ async def judge_problem(
         return _judge_result(resp.json())
 
 
-def main():
-    """Entry point: runs as Streamable HTTP server."""
+def main(argv: list[str] | None = None):
+    """Entry point: a Streamable HTTP server by default; `--transport stdio` for local clients."""
+    global _STDIO
+    parser = argparse.ArgumentParser(prog="onlinecompiler-mcp")
+    parser.add_argument(
+        "--transport",
+        choices=["streamable-http", "stdio"],
+        default="streamable-http",
+        help="streamable-http (default; the key comes as a Bearer token) or stdio "
+        "(the key comes from ONLINECOMPILER_API_KEY)",
+    )
+    args = parser.parse_args(argv)
+    if args.transport == "stdio":
+        _STDIO = True
+        mcp.run(transport="stdio")
+        return
     host = os.environ.get("MCP_HOST", "0.0.0.0")
     port = int(os.environ.get("MCP_PORT", "8080"))
     mcp.run(transport="streamable-http", host=host, port=port)

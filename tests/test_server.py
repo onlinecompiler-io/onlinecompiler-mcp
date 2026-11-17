@@ -203,5 +203,41 @@ class FilesTests(unittest.TestCase):
                       "judge_problem to judge code against one of your stored problems.", server.mcp.instructions)
 
 
+class TransportTests(unittest.TestCase):
+    def tearDown(self):
+        server._STDIO = False
+
+    def test_http_is_the_default_transport(self):
+        with mock.patch.object(server.mcp, "run") as run:
+            server.main([])
+        run.assert_called_once_with(transport="streamable-http", host="0.0.0.0", port=8080)
+        self.assertFalse(server._STDIO)
+
+    def test_stdio_transport(self):
+        with mock.patch.object(server.mcp, "run") as run:
+            server.main(["--transport", "stdio"])
+        run.assert_called_once_with(transport="stdio")
+        self.assertTrue(server._STDIO)
+
+    def test_stdio_reads_the_key_from_the_environment(self):
+        server._STDIO = True
+        with mock.patch.object(server, "get_access_token", return_value=None), \
+                mock.patch.dict("os.environ", {"ONLINECOMPILER_API_KEY": " k-123 "}):
+            self.assertEqual(server._get_api_key(), "k-123")
+
+    def test_http_never_falls_back_to_the_environment_key(self):
+        with mock.patch.object(server, "get_access_token", return_value=None), \
+                mock.patch.dict("os.environ", {"ONLINECOMPILER_API_KEY": "k-123"}):
+            with self.assertRaises(server.ToolError):
+                server._get_api_key()
+
+    def test_a_bearer_token_wins_over_the_environment_key(self):
+        server._STDIO = True
+        token = server.AccessToken(token="bearer-key", client_id="bearer-k", scopes=[])
+        with mock.patch.object(server, "get_access_token", return_value=token), \
+                mock.patch.dict("os.environ", {"ONLINECOMPILER_API_KEY": "k-123"}):
+            self.assertEqual(server._get_api_key(), "bearer-key")
+
+
 if __name__ == "__main__":
     unittest.main()
